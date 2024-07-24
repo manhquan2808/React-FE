@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../../Context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Create() {
   const { token } = useContext(AppContext);
-//   const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -20,7 +22,13 @@ export default function Create() {
       body: JSON.stringify(formData),
     });
     const data = await response.json();
-    console.log(data);
+    if (!response.ok) {
+      setErrors(data.errors);
+    } else {
+      console.log(data);
+      navigate("/");
+    }
+    // console.log(data);
   }
   return (
     <>
@@ -35,6 +43,7 @@ export default function Create() {
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
+          {errors.name && <p className="text-red-500">{errors.name[0]}</p>}
         </div>
         <div>
           <input
@@ -46,6 +55,9 @@ export default function Create() {
               setFormData({ ...formData, description: e.target.value })
             }
           />
+          {errors.description && (
+            <p className="text-red-500">{errors.description[0]}</p>
+          )}
         </div>
         <div>
           <select
@@ -61,6 +73,7 @@ export default function Create() {
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
           </select>
+          {errors.priority && <p className="text-red-500">{errors.priority[0]}</p>}
         </div>
 
         <button type="submit" className="primary-btn">
