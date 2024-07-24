@@ -32,7 +32,7 @@ export default function Create() {
   }
   return (
     <>
-      <h1 className="title">Create New A Post</h1>
+      <h1 className="title">Create New A Task</h1>
 
       <form onSubmit={handleCreate} className="w-1/2 mx-auto space-y-4">
         <div>
