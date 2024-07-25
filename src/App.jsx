@@ -20,7 +20,7 @@ function App() {
           <Route path="/register" element={user ? <Home /> : <Register />} />
           <Route path="/login" element={user ? <Home /> : <Login />} />
           <Route path="/create-task" element={user ? <Create /> : <Login />} />
-          <Route path="/tasks/:id" element={<Show/>} />
+          <Route path="/tasks/:id" element={<Show />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Context/AppContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const { user, token, setUser, setToken } = useContext(AppContext);
+  const { token, setSelectedTask } = useContext(AppContext);
   const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate();
 
   async function getTasks() {
     const response = await fetch("/api/tasks", {
@@ -17,13 +18,16 @@ export default function Home() {
     const data = await response.json();
     if (response.ok) {
       setTasks(data.data);
-      setToken(token);
-      setUser(user);
     }
   }
   useEffect(() => {
     getTasks();
   }, []);
+
+  function handleTaskClick(task) {
+    setSelectedTask(task);
+    navigate(`tasks/${task.id}`)
+  }
   return (
     <>
       <h1 className="title">List Of Tasks</h1>
@@ -32,6 +36,7 @@ export default function Home() {
           <div
             key={task.id}
             className="mb-4 p-4 border rounded-md border-dashed border-slate-400"
+            onClick={() => handleTaskClick(task)}
           >
             <div className="mb-2 flex items-start justify-between">
               <div>
@@ -41,12 +46,12 @@ export default function Home() {
                   {new Date(task.attribute.created_at).toLocaleTimeString()}
                 </small>
               </div>
-              <Link
+              {/* <Link
                 to={`/tasks/${task.id}`}
                 className="bg-cyan-900 text-white rounded-lg px-3 py-1"
               >
                 Detail
-              </Link>
+              </Link> */}
             </div>
             <p>{task.attribute.description}</p>
           </div>

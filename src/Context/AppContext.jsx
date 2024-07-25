@@ -5,6 +5,7 @@ export const AppContext = createContext();
 export default function AppProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   async function getUser() {
     const response = await fetch("api/user", {
@@ -25,7 +26,9 @@ export default function AppProvider({ children }) {
     }
   }, [token]);
   return (
-    <AppContext.Provider value={{ token, setToken, user, setUser }}>
+    <AppContext.Provider
+      value={{ token, setToken, user, setUser, selectedTask, setSelectedTask }}
+    >
       {children}
     </AppContext.Provider>
   );

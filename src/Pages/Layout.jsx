@@ -41,9 +41,6 @@ export default function Layout() {
               >
                 Hello <b>{user.name}</b>
               </p>
-              {/* <Link to="/create" className="nav-link">
-                New Post
-              </Link> */}
               <Link to="/create-task" className="nav-link">
                 New Task
               </Link>
