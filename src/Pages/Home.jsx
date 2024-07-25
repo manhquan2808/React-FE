@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Context/AppContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const { token, setSelectedTask } = useContext(AppContext);
@@ -26,7 +26,7 @@ export default function Home() {
 
   function handleTaskClick(task) {
     setSelectedTask(task);
-    navigate(`tasks/${task.id}`)
+    navigate(`tasks/${task.id}`);
   }
   return (
     <>
@@ -46,14 +46,7 @@ export default function Home() {
                   {new Date(task.attribute.created_at).toLocaleTimeString()}
                 </small>
               </div>
-              {/* <Link
-                to={`/tasks/${task.id}`}
-                className="bg-cyan-900 text-white rounded-lg px-3 py-1"
-              >
-                Detail
-              </Link> */}
             </div>
-            {/* <p>{task.attribute.description}</p> */}
           </div>
         ))
       ) : (

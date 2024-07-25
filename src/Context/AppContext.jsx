@@ -25,7 +25,7 @@ export default function AppProvider({ children }) {
         const data = await response.json();
         setUser(data);
       } else {
-        setUser(null); // Clear user if fetch fails
+        setUser(null); 
       }
     } catch (error) {
       console.error("Failed to fetch user:", error);
