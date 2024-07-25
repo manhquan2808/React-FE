@@ -16,9 +16,6 @@ export default function Layout() {
       },
     });
 
-    const data = response.json();
-    console.log(data);
-
     if (response.ok) {
       setToken(null);
       setUser(null);
@@ -26,6 +23,7 @@ export default function Layout() {
       navigate("/");
     }
   }
+
   return (
     <>
       <header>
@@ -60,7 +58,6 @@ export default function Layout() {
           )}
         </nav>
       </header>
-
       <main>
         <Outlet />
       </main>

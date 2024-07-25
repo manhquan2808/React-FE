@@ -7,24 +7,30 @@ export default function AppProvider({ children }) {
   const [user, setUser] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
 
-  async function getUser() {
-    const response = await fetch("api/user", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      setUser(data);
-    }
-  }
   useEffect(() => {
     if (token) {
       getUser();
     }
   }, [token]);
+
+  async function getUser() {
+    try {
+      const response = await fetch("/api/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+      } else {
+        setUser(null); // Clear user if fetch fails
+      }
+    } catch (error) {
+      console.error("Failed to fetch user:", error);
+    }
+  }
   return (
     <AppContext.Provider
       value={{ token, setToken, user, setUser, selectedTask, setSelectedTask }}

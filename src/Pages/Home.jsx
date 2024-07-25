@@ -9,7 +9,7 @@ export default function Home() {
 
   async function getTasks() {
     const response = await fetch("/api/tasks", {
-      method: "GET",
+      method: "get",
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -53,7 +53,7 @@ export default function Home() {
                 Detail
               </Link> */}
             </div>
-            <p>{task.attribute.description}</p>
+            {/* <p>{task.attribute.description}</p> */}
           </div>
         ))
       ) : (
