@@ -50,6 +50,19 @@ export default function Show() {
     return null;
   }
 
+  async function handleDelete(e) {
+    e.preventDefault();
+
+    const response = await fetch(`/api/tasks/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    navigate('/')
+    console.log(data)
+  }
   return (
     <>
       {task && task.attribute ? (
@@ -68,10 +81,18 @@ export default function Show() {
               <div className="flex items-center justify-end gap-4">
                 <Link
                   to={`/tasks/update/${task.id}`}
-                  className="bg-cyan-300 rounded-md border border-cyan-800 px-3 py-1 text-sm"
+                  className="bg-rose-800 text-white rounded-md border border-cyan-800 px-3 py-1 text-sm"
                 >
                   Update
                 </Link>
+                <form onSubmit={handleDelete}>
+                  <button
+                    type="submit"
+                    className="text-rose-800  px-3 py-1 text-sm"
+                  >
+                    Delete
+                  </button>
+                </form>
               </div>
             </div>
           </div>
