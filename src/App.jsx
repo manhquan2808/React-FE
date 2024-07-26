@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { AppContext } from "./Context/AppContext";
 import Create from "./Pages/Task/Create";
 import Show from "./Pages/Task/Show";
+import Update from "./Pages/Task/Update";
 
 function App() {
   const { user } = useContext(AppContext);
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={user ? <Home /> : <Login />} />
           <Route path="/create-task" element={user ? <Create /> : <Login />} />
           <Route path="/tasks/:id" element={user ? <Show /> : <Login />} />
+          <Route path="tasks/update/:id" element={user ? <Update /> : <Login />} />
         </Route>
       </Routes>
     </BrowserRouter>

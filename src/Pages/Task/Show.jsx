@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../../Context/AppContext";
 
 export default function Show() {
   const { token, selectedTask, setSelectedTask } = useContext(AppContext);
   const [task, setTask] = useState(selectedTask);
-  const [loading, setLoading] = useState(!selectedTask); // State to manage loading
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -21,7 +20,6 @@ export default function Show() {
   }, [token, id]);
 
   async function fetchTaskById(id) {
-    setLoading(true);
     try {
       const response = await fetch(`/api/tasks/${id}`, {
         method: "GET",
@@ -36,17 +34,14 @@ export default function Show() {
         } else {
           console.error("Failed to fetch task");
         }
-        setLoading(false);
         return;
       }
 
       const data = await response.json();
-      setTask(data); // Update the local state
-      setSelectedTask(data); // Also update the context
+      setTask(data);
+      setSelectedTask(data);
     } catch (error) {
       console.error("Error fetching task:", error);
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -57,13 +52,10 @@ export default function Show() {
 
   return (
     <>
-      {loading ? (
-        <p className="title">Loading...</p>
-      ) : (
-        task &&
-        task.attribute && (
-          <>
-            <h1 className="title">{task.attribute.name}</h1>
+      {task && task.attribute ? (
+        <>
+          <h1 className="title">Detail of task {task.attribute.name}</h1>
+          <div className="mt-4 p-4 border rounded-md border-dashed border-slate-400">
             <div className="mb-2 flex items-start justify-between">
               <div>
                 <h2 className="font-bold text-2xl">{task.attribute.name}</h2>
@@ -71,11 +63,21 @@ export default function Show() {
                   Created by {task.relationships.user_name} on{" "}
                   {new Date(task.attribute.created_at).toLocaleDateString()}
                 </small>
+                <p>{task.attribute.description}</p>
+              </div>
+              <div className="flex items-center justify-end gap-4">
+                <Link
+                  to={`/tasks/update/${task.id}`}
+                  className="bg-cyan-300 rounded-md border border-cyan-800 px-3 py-1 text-sm"
+                >
+                  Update
+                </Link>
               </div>
             </div>
-            <p>{task.attribute.description}</p>
-          </>
-        )
+          </div>
+        </>
+      ) : (
+        <p className="title">Loading...</p>
       )}
     </>
   );
